@@ -1,5 +1,6 @@
-package com.example.esdemo;
+package com.example.esdemo.repository;
 
+import com.example.esdemo.model.Article;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**

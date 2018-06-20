@@ -1,5 +1,7 @@
-package com.example.esdemo;
+package com.example.esdemo.controller;
 
+import com.example.esdemo.repository.ArticleSearchRepository;
+import com.example.esdemo.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

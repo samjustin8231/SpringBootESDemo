@@ -1,5 +1,9 @@
-package com.example.esdemo;
+package com.example.esdemo.controller;
 
+import com.example.esdemo.repository.ArticleSearchRepository;
+import com.example.esdemo.model.Article;
+import com.example.esdemo.model.Author;
+import com.example.esdemo.model.Tutorial;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

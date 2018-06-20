@@ -1,12 +1,20 @@
 package com.example.esdemo;
 
+import com.example.esdemo.model.AccountInfo;
+import com.example.esdemo.model.Article;
+import com.example.esdemo.model.Author;
+import com.example.esdemo.model.Tutorial;
+import com.example.esdemo.repository.AccountInfoRepository;
+import com.example.esdemo.repository.ArticleSearchRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.Iterator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -18,6 +26,10 @@ public class EsdemoApplicationTests {
 
     @Autowired
     private ArticleSearchRepository articleSearchRepository;
+
+    @Autowired
+    private AccountInfoRepository accountInfoRepository;
+
     @Test
     public void testSaveArticleIndex(){
         Author author=new Author();
@@ -42,5 +54,24 @@ public class EsdemoApplicationTests {
         article.setClickCount(1L);
 
         articleSearchRepository.save(article);
+    }
+
+    @Test
+    public void testAddAccountInfo(){
+        AccountInfo accountInfo = new AccountInfo();
+        accountInfo.setId("1");
+        accountInfo.setAccountName("sunyajun");
+        accountInfo.setNickName("sam");
+        accountInfoRepository.save(accountInfo);
+    }
+
+    @Test
+    public void testFindAllAccountInfos(){
+        Iterable<AccountInfo> iterable = accountInfoRepository.findAll();
+        Iterator<AccountInfo> iterator = iterable.iterator();
+        while (iterator.hasNext()) {
+            AccountInfo accountInfo = iterator.next();
+            System.out.println(accountInfo);
+        }
     }
 }
