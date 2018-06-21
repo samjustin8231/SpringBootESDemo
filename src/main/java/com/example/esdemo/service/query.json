@@ -1,0 +1,166 @@
+//match_all 查询简单的 匹配所有文档。
+{
+  "query": {
+    "match_all": {
+    }
+  }
+}
+
+//match 无论你在任何字段上进行的是全文搜索还是精确查询，match 查询是你可用的标准查询。
+{
+  "query": {
+    "match": {
+      "title": "to"
+    }
+  }
+}
+
+//multi_match 查询可以在多个字段上执行相同的 match 查询：
+{
+  "query": {
+    "multi_match": {
+      "query": "kill",
+      "fields": [
+        "title",
+        "director"
+      ]
+    }
+  }
+}
+
+//range 查询找出那些落在指定区间内的数字或者时间：
+{
+  "query": {
+    "range": {
+      "age": {
+        "gte": 20,
+        "lt": 30
+      }
+    }
+  }
+}
+
+//term 查询被用于精确值 匹配，这些精确值可能是数字、时间、布尔或者那些 not_analyzed 的字符串：
+{
+  "query": {
+    "term": {
+      "year": 1962
+    }
+  }
+}
+
+//terms 查询和 term 查询一样，但它允许你指定多值进行匹配。如果这个字段包含了指定值中的任何一个值，那么这个文档满足条件：
+{
+  "query": {
+    "terms": {
+      "title": [
+        "sam",
+        "kill",
+        "a"
+      ]
+    }
+  }
+}
+
+//exists 查询和 missing 查询被用于查找那些指定字段中有值 (exists) 或无值 (missing) 的文档。这与SQL中的 IS_NULL (missing)
+//和 NOT IS_NULL (exists) 在本质上具有共性：
+{
+  "query": {
+    "exists": {
+      "field": "title"
+    }
+  }
+}
+
+//你可以用 bool 查询来实现你的需求。这种查询将多查询组合在一起，成为用户自己想要的布尔查询。
+//must 文档 必须 匹配这些条件才能被包含进来。
+//must_not 文档 必须不 匹配这些条件才能被包含进来。
+//should 如果满足这些语句中的任意语句，将增加 _score ，否则，无任何影响。它们主要用于修正每个文档的相关性得分。
+//filter 必须 匹配，但它以不评分、过滤模式来进行。这些语句对评分没有贡献，只是根据过滤标准来排除或包含文档。
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "title": "kill"
+        }
+      },
+      "must_not": {
+        "match": {
+          "director": "ki"
+        }
+      },
+      "should": [
+        {
+          "match": {
+            "tag": "starred"
+          }
+        },
+        {
+          "range": {
+            "date": {
+              "gte": "2014-01-01"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+//所有查询都可以借鉴这种方式。将查询移到 bool 查询的 filter 语句中，这样它就自动的转成一个不评分的 filter 了。
+{
+  "query":{
+    "bool": {
+      "must":     { "match": { "title": "kill" }},
+      "must_not": { "match": { "director":   "hi" }},
+      "filter": {
+        "range": { "year": { "gte": "1964" }}
+      }
+    }
+  }
+}
+
+//使用聚集前
+//PUT megacorp/_mapping/employee/
+{
+  "properties": {
+    "interests": {
+      "type":     "text",
+      "fielddata": true
+    }
+  }
+}
+
+//汽车经销商可能会想知道哪个颜色的汽车销量最好
+{
+  "size" : 0,
+  "aggs" : {
+    "popular_colors" : {
+      "terms" : {
+        "field" : "color"
+      }
+    }
+  }
+}
+
+//每种颜色汽车的平均价格是多少
+{
+  "size" : 0,
+  "aggs": {
+    "colors": {
+      "terms": {
+        "field": "color"
+      },
+      "aggs": {
+        "avg_price": {
+          "avg": {
+            "field": "price"
+          }
+        }
+      }
+    }
+  }
+}
+
+
