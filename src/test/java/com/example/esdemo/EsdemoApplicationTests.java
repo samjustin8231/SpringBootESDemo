@@ -29,10 +29,6 @@ import java.util.List;
 @SpringBootTest
 public class EsdemoApplicationTests {
 
-    @Test
-    public void contextLoads() {
-    }
-
     @Autowired
     private ArticleSearchRepository articleSearchRepository;
 
@@ -43,17 +39,21 @@ public class EsdemoApplicationTests {
     private UserRepository userRepository;
 
     @Test
-    public void testSaveArticleIndex(){
-        Author author=new Author();
+    public void contextLoads() {
+    }
+
+    @Test
+    public void testSaveArticleIndex() {
+        Author author = new Author();
         author.setId(1L);
         author.setName("tianshouzhi");
         author.setRemark("java developer");
 
-        Tutorial tutorial=new Tutorial();
+        Tutorial tutorial = new Tutorial();
         tutorial.setId(1L);
         tutorial.setName("elastic search");
 
-        Article article =new Article();
+        Article article = new Article();
         article.setId(1L);
         article.setTitle("springboot integreate elasticsearch");
         article.setAbstracts("springboot integreate elasticsearch is very easy");
@@ -69,7 +69,7 @@ public class EsdemoApplicationTests {
     }
 
     @Test
-    public void testAddAccountInfo(){
+    public void testAddAccountInfo() {
         AccountInfo accountInfo = new AccountInfo();
         accountInfo.setId("1");
         accountInfo.setAccountName("sunyajun");
@@ -78,7 +78,7 @@ public class EsdemoApplicationTests {
     }
 
     @Test
-    public void testFindAllAccountInfos(){
+    public void testFindAllAccountInfos() {
         Iterable<AccountInfo> iterable = accountInfoRepository.findAll();
         Iterator<AccountInfo> iterator = iterable.iterator();
         while (iterator.hasNext()) {
@@ -88,19 +88,19 @@ public class EsdemoApplicationTests {
     }
 
     @Test
-    public void testAddUser(){
-        for (int i=0;i<10;i++) {
+    public void testAddUser() {
+        for (int i = 0; i < 10; i++) {
             User user = new User();
             user.setId((long) i);
             user.setAge(i);
             user.setUsername("sam" + i);
-            user.setRealname("sunyajun"+i);
+            user.setRealname("sunyajun" + i);
             userRepository.save(user);
         }
     }
 
     @Test
-    public void testFindAllUsers(){
+    public void testFindAllUsers() {
         Iterable<User> iterable = userRepository.findAll();
         Iterator<User> iterator = iterable.iterator();
         while (iterator.hasNext()) {
@@ -110,7 +110,7 @@ public class EsdemoApplicationTests {
     }
 
     @Test
-    public void testQueryBuilder(){
+    public void testQueryBuilder() {
         //创建builder
         BoolQueryBuilder builder = QueryBuilders.boolQuery();
         //builder下有must、should以及mustNot 相当于sql中的and、or以及not
@@ -143,10 +143,15 @@ public class EsdemoApplicationTests {
     }
 
     @Test
-    public void testFindByAgeBetween(){
+    public void testFindByAgeBetween() {
         List<User> list = userRepository.findByAgeBetween(3, 5);
-        for (User user:list) {
+        for (User user : list) {
             System.out.println(user);
         }
+    }
+
+    @Test
+    public void testQuartz() throws Exception {
+
     }
 }

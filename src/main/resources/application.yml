@@ -7,3 +7,9 @@ spring:
                 path:
                   logs: ./elasticsearch/log #elasticsearch日志存储目录
                   data: ./elasticsearch/data #elasticsearch数据存储目录
+   activemq:
+        broker-url: tcp://127.0.0.1:61616
+        user: admin
+        password: admin
+
+queue: kmx.pas.job.sgtest
