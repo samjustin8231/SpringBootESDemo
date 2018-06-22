@@ -19,9 +19,7 @@ spring:
         password:
 
 #指定mybatis映射文件的地址
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.esdemo
+
 
 # activemq queue
 queue: kmx.pas.job.sgtest
