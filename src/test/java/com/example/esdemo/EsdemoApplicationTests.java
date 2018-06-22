@@ -4,6 +4,7 @@ import com.example.esdemo.model.*;
 import com.example.esdemo.repository.AccountInfoRepository;
 import com.example.esdemo.repository.ArticleSearchRepository;
 import com.example.esdemo.repository.UserRepository;
+import com.example.esdemo.service.UserMapper;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -18,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
@@ -37,6 +37,9 @@ public class EsdemoApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Test
     public void contextLoads() {
@@ -90,7 +93,7 @@ public class EsdemoApplicationTests {
     @Test
     public void testAddUser() {
         for (int i = 0; i < 10; i++) {
-            User user = new User();
+            UserInfo user = new UserInfo();
             user.setId((long) i);
             user.setAge(i);
             user.setUsername("sam" + i);
@@ -101,10 +104,10 @@ public class EsdemoApplicationTests {
 
     @Test
     public void testFindAllUsers() {
-        Iterable<User> iterable = userRepository.findAll();
-        Iterator<User> iterator = iterable.iterator();
+        Iterable<UserInfo> iterable = userRepository.findAll();
+        Iterator<UserInfo> iterator = iterable.iterator();
         while (iterator.hasNext()) {
-            User accountInfo = iterator.next();
+            UserInfo accountInfo = iterator.next();
             System.out.println(accountInfo);
         }
     }
@@ -138,14 +141,14 @@ public class EsdemoApplicationTests {
         NativeSearchQuery query = nativeSearchQueryBuilder.build();
 
         //执行,返回包装结果的分页
-        Page<User> resutlList = userRepository.search(query);
+        Page<UserInfo> resutlList = userRepository.search(query);
         System.out.println(resutlList);
     }
 
     @Test
     public void testFindByAgeBetween() {
-        List<User> list = userRepository.findByAgeBetween(3, 5);
-        for (User user : list) {
+        List<UserInfo> list = userRepository.findByAgeBetween(3, 5);
+        for (UserInfo user : list) {
             System.out.println(user);
         }
     }
@@ -153,5 +156,15 @@ public class EsdemoApplicationTests {
     @Test
     public void testQuartz() throws Exception {
 
+    }
+
+    @Test
+    public void testMybatis() throws Exception {
+        User user = new User();
+        user.setUsername("sam");
+        user.setAge(24);
+        user.setCtm(new Date());
+        user.setId(1);
+        userMapper.add(user);
     }
 }
