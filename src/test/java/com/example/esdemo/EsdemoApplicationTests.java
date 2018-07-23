@@ -4,7 +4,6 @@ import com.example.esdemo.model.*;
 import com.example.esdemo.repository.AccountInfoRepository;
 import com.example.esdemo.repository.ArticleSearchRepository;
 import com.example.esdemo.repository.UserRepository;
-import com.example.esdemo.service.UserMapper;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
@@ -37,9 +36,6 @@ public class EsdemoApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @Test
     public void contextLoads() {
@@ -158,13 +154,4 @@ public class EsdemoApplicationTests {
 
     }
 
-    @Test
-    public void testMybatis() throws Exception {
-        User user = new User();
-        user.setUsername("sam");
-        user.setAge(24);
-        user.setCtm(new Date());
-        user.setId(1);
-        userMapper.add(user);
-    }
 }
